@@ -74,6 +74,12 @@ registerbtn.addEventListener('click',()=>{
         registerresults.classList.add('hidden');
     }, 3000);
  })
+    fullnames.value = "";
+Instituitionname.value = "";
+email.value = "";
+courseinput.value = "";
+studentid.value = "";
+password.value = "";
 })
 
 
@@ -149,6 +155,10 @@ loginbtn.addEventListener('click',()=>{
         loginresults.classList.add('hidden');
     }, 3000);
  })
+emailinput.value="";
+ passwordinput.value="";
+    
+    
 })
 
 
@@ -257,6 +267,24 @@ submitbtn.addEventListener('click',()=>{
             uploadmessage.classList.add('hidden');
         }, 4000);
     })
+    applicantfullname.value = "";
+applicantsid.value = "";
+brthdate.value = "";
+selectgender.value = "";
+phoneno.value = "";
+locationinput.value = "";
+Institution.value = "";
+StudentId.value = "";
+course.value = "";
+Yearofstudy.value = "";
+resultsuplaod.value = "";
+Monthlyincone.value = "";
+dependants.value = "";
+reason.value = "";
+idcopy.value = "";
+supportingdoc.value = "";
+uploadmessage.value = "";
+Declaration.checked = false;
 })
 
 // admin
