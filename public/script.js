@@ -1,87 +1,84 @@
 
-
 const fullnames = document.getElementById('fullnames');
 const Instituitionname = document.getElementById('Instituitionname');
-const email =document.getElementById('email');
+const email = document.getElementById('email');
 const courseinput = document.getElementById('courseinput');
-const studentid  =document.getElementById('studentid');
-const password  =document.getElementById('password');
+const studentid = document.getElementById('studentid');
+const password = document.getElementById('password');
 const registerbtn = document.getElementById('registerbtn');
-const registerresults =document.getElementById('registerresults');
+const registerresults = document.getElementById('registerresults');
 const loginlink = document.getElementById('loginlink');
 const registerform = document.getElementById('registerform');
 const loginform = document.getElementById('loginform');
-const loginsection=document.getElementById('loginsection');
-const registrationsection=document.getElementById('registrationsection');
-const registerlink=document.getElementById('registerlink');
+const loginsection = document.getElementById('loginsection');
+const registrationsection = document.getElementById('registrationsection');
+const registerlink = document.getElementById('registerlink');
 const applicationpage = document.getElementById('applicationpage');
-const footer =document.getElementById('footer');
+const footer = document.getElementById('footer');
+const landingpage = document.getElementById('landingpage');
+const applycta = document.getElementById('applycta');
 
-
-loginform.addEventListener('submit',(e)=>{
+loginform.addEventListener('submit', (e) => {
     e.preventDefault();
 })
 
-registerform.addEventListener('submit',(e)=>{
+registerform.addEventListener('submit', (e) => {
     e.preventDefault();
 })
 
-
-registerbtn.addEventListener('click',()=>{
+registerbtn.addEventListener('click', () => {
     const FULLNAMES = fullnames.value.trim();
-    const INSTITUTION= Instituitionname.value.trim();
+    const INSTITUTION = Instituitionname.value.trim();
     const EMAIL = email.value.trim();
-    const COURSE =courseinput.value.trim();
-    const STUDENTID= studentid.value.trim();
-    const PASSWORD =password.value.trim();
+    const COURSE = courseinput.value.trim();
+    const STUDENTID = studentid.value.trim();
+    const PASSWORD = password.value.trim();
 
-
-    if(FULLNAMES==="" || INSTITUTION===""||EMAIL===""||COURSE===""||STUDENTID===""||PASSWORD===""){
+    if (FULLNAMES === "" || INSTITUTION === "" || EMAIL === "" || COURSE === "" || STUDENTID === "" || PASSWORD === "") {
         registerresults.textContent = 'please fill in the field above';
         registerresults.classList.remove('hidden');
-
         setTimeout(() => {
             registerresults.classList.add('hidden');
-        },3000);
+        }, 3000);
         return;
     }
- fetch('/registeruser/register',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    credentials:'include',
-    body:JSON.stringify({FULLNAMES,INSTITUTION,EMAIL,COURSE,STUDENTID,PASSWORD})
- })
- .then(res=>res.json())
- .then(data=>{
-    registerresults.classList.remove('hidden');
-    registerresults.textContent = data.message;
-    if(data.message.includes(`you have been succesfully registered`)){
+
+    fetch('/registeruser/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ FULLNAMES, INSTITUTION, EMAIL, COURSE, STUDENTID, PASSWORD })
+    })
+    .then(res => res.json())
+    .then(data => {
+        registerresults.classList.remove('hidden');
+        registerresults.textContent = data.message;
+
+        if (data.message.includes(`you have been succesfully registered`)) {
+            fullnames.value = "";
+            Instituitionname.value = "";
+            email.value = "";
+            courseinput.value = "";
+            studentid.value = "";
+            password.value = "";
+
+            setTimeout(() => {
+                registerresults.classList.add('hidden');
+                registrationsection.classList.add('hidden');
+                landingpage.classList.remove('hidden');
+                applycta.classList.remove('hidden');
+                loginsection.classList.remove('hidden');
+                footer.classList.remove('hidden');
+            }, 3000);
+        }
+    })
+    .catch(err => {
+        registerresults.classList.remove('hidden');
+        registerresults.textContent = err.message;
         setTimeout(() => {
-        registrationsection.classList.add('hidden');
-        landingpage.classList.remove('hidden');
-        applycta.classList.remove('remove');
-        loginsection.classList.add('hidden');
-        loginsection.classList.remove('hidden');
-       footer.classList.remove('hidden');
-
-    },3000);
-    }
-
- })
- .catch(err=>{
-     registerresults.classList.remove('hidden');
-    registerresults.textContent = err.message;
-
-    setTimeout(() => {
-        registerresults.classList.add('hidden');
-    }, 3000);
- })
-    fullnames.value = "";
-Instituitionname.value = "";
-email.value = "";
-courseinput.value = "";
-studentid.value = "";
-password.value = "";
+            registerresults.classList.add('hidden');
+        }, 3000);
+    });
 })
 
 
