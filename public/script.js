@@ -17,7 +17,6 @@ const applicationpage = document.getElementById('applicationpage');
 const footer = document.getElementById('footer');
 const landingpage = document.getElementById('landingpage');
 const applycta = document.getElementById('applycta');
-
 loginform.addEventListener('submit', (e) => {
     e.preventDefault();
 })
@@ -67,7 +66,7 @@ registerbtn.addEventListener('click', () => {
                 registrationsection.classList.add('hidden');
                 landingpage.classList.remove('hidden');
                 applycta.classList.remove('hidden');
-                loginsection.classList.remove('hidden');
+                loginsection.classList.add('hidden');
                 footer.classList.remove('hidden');
             }, 2000);
         }
