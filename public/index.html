@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Smart Bursary Distribution Portal</title>
+    <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        h1, h2, h3, legend { font-family: 'Syne', sans-serif; }
+        input[type="file"]::file-selector-button {
+            background: #16a34a; color: white; border: none;
+            padding: 6px 14px; border-radius: 6px; cursor: pointer;
+            font-size: 0.85rem; margin-right: 10px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #16a34a !important;
+            box-shadow: 0 0 0 3px rgba(22,163,74,0.15);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+<div>
+
+    <!-- ======================== -->
+    <!--        REGISTER          -->
+    <!-- ======================== -->
+    <div id="registrationsection" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-900 via-green-700 to-green-500 px-4 py-10 ">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div class="bg-green-700 px-8 py-6">
+                <h1 class="text-white text-2xl font-bold">Smart Bursary Portal</h1>
+                <p class="text-green-200 text-sm mt-1">Create your student account</p>
+            </div>
+
+
+            <form id="registerform" class="px-8 py-6 space-y-4 ">
+                <h1 class="text-xl font-bold text-slate-800">Register Form</h1>
+
+                <div class="space-y-1">
+                    <label for="fullname" class="text-sm font-medium text-slate-600">Full Names</label>
+                    <input type="text" id="fullnames" name="fullnames" placeholder="Enter your full names"
+                        class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                </div>
+                <div class="space-y-1">
+                    <label for="Institution" class="text-sm font-medium text-slate-600">Institution</label>
+                    <input type="text" id="Instituitionname" name="Instituitionname" placeholder="Enter your Institution name"
+                        class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                </div>
+                <div class="space-y-1">
+                    <label for="Email" class="text-sm font-medium text-slate-600">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email"
+                        class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                </div>
+                <div class="space-y-1">
+                    <label for="course" class="text-sm font-medium text-slate-600">Course</label>
+                    <input type="text" id="courseinput" name="courseinput" placeholder="Enter your course"
+                        class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                </div>
+                <div class="space-y-1">
+                    <label for="studentid" class="text-sm font-medium text-slate-600">Student ID</label>
+                    <input type="text" id="studentid" name="studentid" placeholder="Enter your student ID"
+                        class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                </div>
+                <div class="space-y-1">
+                    <label for="password" class="text-sm font-medium text-slate-600">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Set your preferred password"
+                        class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                </div>
+
+                <button id="registerbtn" type="button"
+                    class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-colors text-sm">
+                    Create Account
+                </button>
+                <p id="registerresults" class="text-sm text-center text-slate-500 min-h-[20px]"></p>
+                <p class="text-sm text-center text-slate-500">Already have an account?
+                    <a id="loginlink" href="#" class="text-green-600 font-semibold hover:underline">Login</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ======================== -->
+    <!--          LOGIN           -->
+    <!-- ======================== -->
+    <div id="loginsection" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-green-900 px-4 hidden">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div class="bg-slate-800 px-8 py-6">
+                <h1 class="text-white text-2xl font-bold">Welcome Back</h1>
+                <p class="text-slate-400 text-sm mt-1">Sign in to your bursary portal</p>
+            </div>
+            <form id="loginform" class="px-8 py-6 space-y-4">
+                <h1 class="text-xl font-bold text-slate-800">Login Form</h1>
+
+                <div class="space-y-1">
+                    <label for="Email" class="text-sm font-medium text-slate-600">Email</label>
+                    <input type="email" id="emailinput" name="emailinput" placeholder="Enter your email" required
+                        class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                </div>
+                <div class="space-y-1">
+                    <label for="password" class="text-sm font-medium text-slate-600">Password</label>
+                    <input type="password" id="passwordinput" name="passwordinput" placeholder="Enter your password" required
+                        class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                </div>
+
+                <button id="loginbtn" type="button"
+                    class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 rounded-lg transition-colors text-sm">
+                    Sign In
+                </button>
+                <p id="loginresults" class="text-sm text-center min-h-[20px]"></p>
+                <p class="text-sm text-center text-slate-500">Don't have an account?
+                    <a id="registerlink" href="#" class="text-green-600 font-semibold hover:underline">Register</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ======================== -->
+    <!--       LANDING PAGE       -->
+    <!-- ======================== -->
+    <section id="landingpage" class="min-h-screen bg-slate-50 flex flex-col hidden">
+
+        <!-- Student Navbar -->
+        <nav class="bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm">
+            <div class="text-green-700 font-bold text-lg">Smart Bursary Distribution Portal</div>
+            <div class="flex items-center gap-4">
+                <img id="profile" src="" alt="profilepic"
+                    class="w-9 h-9 rounded-full bg-slate-200 object-cover border-2 border-green-200">
+                <button id="logoutbutton"
+                    class="bg-red-50 hover:bg-red-100 text-red-600 text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                    Log Out
+                </button>
+            </div>
+        </nav>
+
+        <div class="flex flex-1 ">
+            <!-- Sidebar -->
+            <aside class="w-52 bg-white border-r border-slate-100 flex flex-col gap-1 py-6 px-3 shadow-sm min-h-screen hidden">
+                <button class="text-left text-sm text-slate-600 hover:bg-green-50 hover:text-green-700 px-4 py-2.5 rounded-lg transition-colors font-medium">🏠 Help / Portal</button>
+                <button class="text-left text-sm text-slate-600 hover:bg-green-50 hover:text-green-700 px-4 py-2.5 rounded-lg transition-colors font-medium">🌙 Dark Mode</button>
+                <button class="text-left text-sm text-slate-600 hover:bg-green-50 hover:text-green-700 px-4 py-2.5 rounded-lg transition-colors font-medium">⚙️ Settings</button>
+                <button class="text-left text-sm text-slate-600 hover:bg-green-50 hover:text-green-700 px-4 py-2.5 rounded-lg transition-colors font-medium">💬 WhatsApp Channel</button>
+                <button class="text-left text-sm text-slate-600 hover:bg-green-50 hover:text-green-700 px-4 py-2.5 rounded-lg transition-colors font-medium">ℹ️ About Us</button>
+            </aside>
+
+            <!-- Main -->
+            <div class="flex-1 px-8 py-8">
+
+                <!-- Hero -->
+                <div class=" bg-gradient-to-br from-green-700 to-green-500 rounded-2xl p-8 text-white mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-72 h-72 bg-white opacity-5 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                    <h1 class="text-3xl font-bold mb-1">Welcome back, <span id="loggeduser" class="text-green-200"></span> 👋</h1>
+                    <h2 class="text-green-100 text-base font-normal mb-4">Institution: <span id="Institutionname" class="font-semibold text-white"></span></h2>
+                    <p class="text-green-100 text-sm mb-5">Ready to secure your future? Apply for a bursary today.</p>
+                    <div class="flex gap-3 flex-wrap">
+                        <a id="applylink" href="#"
+                            class="bg-white text-green-700 font-semibold text-sm px-5 py-2.5 rounded-lg hover:bg-green-50 transition-colors">
+                            Apply Now
+                        </a>
+                        <button id="viewstatus"
+                            class="bg-green-600 border border-green-400 text-white font-semibold text-sm px-5 py-2.5 rounded-lg hover:bg-green-800 transition-colors">
+                            View My Status
+                        </button>
+                    </div>
+                    <ul id="status" class="mt-4 text-sm text-green-100 space-y-1"></ul>
+                </div>
+
+                <!-- Eligibility + How to Apply -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                        <h1 class="text-lg font-bold text-slate-800 mb-4">✅ Who is Eligible</h1>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-2 text-sm text-slate-600"><span class="text-green-500 mt-0.5 font-bold">●</span>Must be a Kenyan citizen</li>
+                            <li class="flex items-start gap-2 text-sm text-slate-600"><span class="text-green-500 mt-0.5 font-bold">●</span>Must be earning less than 5,000 KSH</li>
+                            <li class="flex items-start gap-2 text-sm text-slate-600"><span class="text-green-500 mt-0.5 font-bold">●</span>Must be in 2nd Year and below</li>
+                            <li class="flex items-start gap-2 text-sm text-slate-600"><span class="text-green-500 mt-0.5 font-bold">●</span>Must have attained at least 50% in last exam</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                        <h1 class="text-lg font-bold text-slate-800 mb-4">📋 How to Apply</h1>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-2 text-sm text-slate-600">
+                                <span class="bg-green-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+                                Create account or register
+                            </li>
+                            <li class="flex items-start gap-2 text-sm text-slate-600">
+                                <span class="bg-green-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+                                Fill in the applicant form
+                            </li>
+                            <li class="flex items-start gap-2 text-sm text-slate-600">
+                                <span class="bg-green-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+                                Upload your supporting documents
+                            </li>
+                            <li class="flex items-start gap-2 text-sm text-slate-600">
+                                <span class="bg-green-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">4</span>
+                                Submit and wait for approval
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Requirements -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                    <h1 class="text-lg font-bold text-slate-800 mb-4">📄 Requirements to Apply</h1>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-green-50 rounded-xl p-4 text-center">
+                            <div class="text-3xl mb-2">🪪</div>
+                            <p class="text-sm text-slate-700 font-medium">Certified ID Copy</p>
+                        </div>
+                        <div class="bg-green-50 rounded-xl p-4 text-center">
+                            <div class="text-3xl mb-2">💰</div>
+                            <p class="text-sm text-slate-700 font-medium">Proof of Income</p>
+                        </div>
+                        <div class="bg-green-50 rounded-xl p-4 text-center">
+                            <div class="text-3xl mb-2">📊</div>
+                            <p class="text-sm text-slate-700 font-medium">Academic Results</p>
+                        </div>
+                        <div class="bg-green-50 rounded-xl p-4 text-center">
+                            <div class="text-3xl mb-2">📝</div>
+                            <p class="text-sm text-slate-700 font-medium">Local Authority Rec.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ======================== -->
+    <!--        APPLY CTA         -->
+    <!-- ======================== -->
+    <section id="applycta" class="bg-gradient-to-br from-slate-900 to-green-900 py-24 px-6 text-center hidden">
+        <h1 class="text-slate-400 text-xs uppercase tracking-widest mb-3">Apply CTA Section</h1>
+        <h1 class="text-white text-4xl font-bold mb-4">Ready to apply for your bursary?</h1>
+        <p class="text-slate-300 text-base mb-8 max-w-lg mx-auto">Applications are open — ensure you apply to avoid late submission.</p>
+        <button id="startapplicationbtn"
+            class="bg-green-500 hover:bg-green-400 text-white font-bold px-10 py-4 rounded-xl text-base transition-all shadow-lg hover:shadow-green-500/30 hover:-translate-y-0.5">
+            Start Application →
+        </button>
+    </section>
+
+
+    <!-- ======================== -->
+    <!--     APPLICATION FORM     -->
+    <!-- ======================== -->
+    <section id="applicationpage" class="bg-slate-50 py-12 px-4 hidden">
+        <div class="max-w-3xl mx-auto">
+
+            <div class="bg-amber-50 border border-amber-200 rounded-xl px-6 py-4 mb-8 ">
+                <h1 class="text-amber-800 font-bold text-base text-xl">Ensure you fill in all sections with correct details</h1>
+                <p class="text-amber-700 text-sm mt-1">Any forgery will result in disqualification from the bursary.</p>
+            </div>
+
+            <form id="applicationform" class="space-y-6">
+
+                <!-- Personal Info -->
+                <fieldset class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-4">
+                    <legend class="text-base font-bold text-slate-800 px-2 bg-white">Personal Information</legend>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label for="Fullnames" class="text-sm font-medium text-slate-600">Full Names</label>
+                            <input type="text" id="applicantfullname" name="fullnames" placeholder="Enter your full names"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label for="idno" class="text-sm font-medium text-slate-600">ID Number</label>
+                            <input type="text" id="applicantsid" name="applicantid" placeholder="ID number"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label for="Date of birth" class="text-sm font-medium text-slate-600">Date of Birth</label>
+                            <input type="date" id="brthdate" name="birthdate"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label for="Gender" class="text-sm font-medium text-slate-600">Gender</label>
+                            <select id="selectgender" name="selectgender"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="rathernotsay">Rather not say</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label for="phoneno" class="text-sm font-medium text-slate-600">Phone Number</label>
+                            <input type="tel" id="phoneno" name="phoneno" placeholder="Enter your phone number"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label for="locatio" class="text-sm font-medium text-slate-600">Location</label>
+                            <input type="text" id="location" name="location" placeholder="Enter your location"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Academic Info -->
+                <fieldset class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-4">
+                    <legend class="text-base font-bold text-slate-800 px-2 bg-white">Academic Information</legend>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label for="Institution" class="text-sm font-medium text-slate-600">Institution</label>
+                            <input type="text" id="Institution" name="institution" placeholder="Institution name"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label for="Studentid" class="text-sm font-medium text-slate-600">Student ID</label>
+                            <input type="text" id="StudentId" name="studentsid" placeholder="Student ID number"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label for="Course" class="text-sm font-medium text-slate-600">Course</label>
+                            <input type="text" id="course" name="course" placeholder="Course you are partaking"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label for="Yearofstudy" class="text-sm font-medium text-slate-600">Year of Study</label>
+                            <input type="text" id="Yearofstudy" name="yearofstudy" placeholder="e.g. 1st Year"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                        </div>
+                        <div class="space-y-1 md:col-span-2">
+                            <label for="results" class="text-sm font-medium text-slate-600">Recent Exam Results</label>
+                            <input type="file" id="resultsuplaod" name="uploadresults"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Financial Info -->
+                <fieldset class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-4">
+                    <legend class="text-base font-bold text-slate-800 px-2 bg-white">Financial Information</legend>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label for="Monthlyhouseholdincome" class="text-sm font-medium text-slate-600">Monthly Household Income (KES)</label>
+                            <input type="number" id="Monthlyincone" name="monthlyincome" placeholder="e.g. 15000"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label for="Numberofdependants" class="text-sm font-medium text-slate-600">Number of Dependants</label>
+                            <input type="text" id="dependants" name="dependants" placeholder="e.g. 4"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-slate-600 mb-3">Are you currently employed?</p>
+                        <div class="flex gap-6">
+                    
+            
+                            <label class="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
+                                <input type="radio" id="employed" name="employed" value="employed" class="accent-green-600 w-4 h-4"> Employed
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Motivation -->
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-3">
+                    <h1 class="text-base font-bold text-slate-800">Why do you need this bursary?</h1>
+                    <label for="reason" class="text-sm font-medium text-slate-600">Reason for applying</label>
+                    <textarea placeholder="Tell us why you deserve this bursary..." id="reason" name="reason" maxlength="120"
+                        class="w-full px-4 py-3 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all resize-none h-28"></textarea>
+                    <p class="text-xs text-slate-400 text-right">Max 120 characters</p>
+                </div>
+
+            </form>
+
+            <section class="">
+
+            <!-- Documents Upload -->
+            <fieldset class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-4 mt-6">
+                <legend class="text-base font-bold text-slate-800 px-2 bg-white">Document Uploads</legend>
+                <div class="space-y-1">
+                    <label for="Certified ID copy" class="text-sm font-medium text-slate-600">Certified ID Copy</label>
+                    <input type="file" id="idcopy" name="idcopy"
+                        class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                </div>
+                <div class="space-y-1">
+                    <label for="Suporting documents" class="text-sm font-medium text-slate-600">Supporting Documents</label>
+                    <input type="file" id="supportingdoc" name="supportingdoc"
+                        class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 transition-all">
+                </div>
+                <ul id="uploadmessage" class="space-y-2 text-sm text-slate-600"></ul>
+            </fieldset>
+
+            <!-- Declaration -->
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 mt-6">
+                <h2 class="text-base font-bold text-slate-800 mb-4">Declaration</h2>
+                <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="Declaration" name="Declaration" class="accent-green-600 mt-0.5 w-4 h-4 flex-shrink-0">
+                    <p class="text-sm text-slate-600">I confirm that all information provided is accurate and truthful. I understand that any false information will result in disqualification.</p>
+                </label>
+            </div>
+
+            <button id="submitbtn" type="button"
+                class="w-full mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl text-base transition-colors shadow-lg">
+                Submit Application
+            </button>
+        </div>
+    </section>
+
+    </section>
+
+
+    <!-- ======================== -->
+    <!--        ADMIN PAGE        -->
+    <!-- ======================== -->
+     
+    <section id="adminpage" class="min-h-screen bg-slate-100 hidden">
+
+        <!-- Admin Navbar -->
+        <nav class="bg-slate-900 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+            <div class="text-green-400 font-bold text-lg">Smart Bursary Portal — Admin</div>
+            <div class="flex items-center gap-6">
+                <a href="#dashboard" class="text-slate-300 hover:text-white text-sm transition-colors">Dashboard</a>
+                <a href="#applications-list" class="text-slate-300 hover:text-white text-sm transition-colors">Applications</a>
+                <a href="#students-list" class="text-slate-300 hover:text-white text-sm transition-colors">Students</a>
+                <a href="#funds" class="text-slate-300 hover:text-white text-sm transition-colors">Funds</a>
+                <span class="text-slate-400 text-sm">Admin: <span id="adminname" class="text-white font-semibold"></span></span>
+                <button id="adminlogoutbtn"
+                    class="bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                    Logout
+                </button>
+            </div>
+        </nav>
+
+        <div class="px-8 py-8">
+
+            <!-- Dashboard Header -->
+            <h1 class="text-2xl font-bold text-slate-800 mb-6">Welcome to Admin Dashboard</h1>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-10">
+                <div class="bg-white rounded-xl p-5 border border-slate-100 shadow-sm">
+                    <p class="text-xs text-slate-400 uppercase tracking-wide mb-2">Total Applications</p>
+                    <ul id="totalapplication" class="text-2xl font-bold text-slate-800"></ul>
+                </div>
+                <div class="bg-white rounded-xl p-5 border border-slate-100 shadow-sm">
+                    <p class="text-xs text-slate-400 uppercase tracking-wide mb-2">Pending</p>
+                    <p id="pending" class="text-2xl font-bold text-amber-500"></p>
+                </div>
+                <div class="bg-white rounded-xl p-5 border border-slate-100 shadow-sm">
+                    <p class="text-xs text-slate-400 uppercase tracking-wide mb-2">Approved</p>
+                    <p id="approved" class="text-2xl font-bold text-green-600"></p>
+                </div>
+                <div class="bg-white rounded-xl p-5 border border-slate-100 shadow-sm">
+                    <p class="text-xs text-slate-400 uppercase tracking-wide mb-2">Rejected</p>
+                    <p id="rejected" class="text-2xl font-bold text-red-500"></p>
+                </div>
+                <div class="bg-white rounded-xl p-5 border border-slate-100 shadow-sm">
+                    <p class="text-xs text-slate-400 uppercase tracking-wide mb-2">Set Budget (KES)</p>
+                    <input type="number" id="setbudget" placeholder="Set budget"
+                        class="w-full border border-slate-200 rounded-lg px-3 py-1.5 text-sm bg-slate-50 mb-2">
+                    <ul id="totalbudget" class="text-sm font-bold text-slate-700"></ul>
+                </div>
+                <div class="bg-white rounded-xl p-5 border border-slate-100 shadow-sm">
+                    <p class="text-xs text-slate-400 uppercase tracking-wide mb-2">Remaining</p>
+                    <ul id="remainingbudget" class="text-2xl font-bold text-blue-600"></ul>
+                </div>
+            </div>
+
+
+            <!-- Applications List -->
+            <section id="applications-list" class="mb-10 ">
+                <h1 class="text-xl font-bold text-slate-800 mb-4">All Applications</h1>
+
+                <div class="flex gap-3 mb-4 flex-wrap">
+                    <input type="text" id="searchinput" placeholder="Search by name or student number"
+                        class="flex-1 min-w-[200px] px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-white">
+                    <select id="filterstatus"
+                        class="px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-white">
+                        <option value="all">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="under_review">Under Review</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                    <button id="searchbtn"
+                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                        Search
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                    <table class="w-full border-collapse">
+                        <thead class="bg-slate-50 border-b border-slate-100">
+                            <tr>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Student Name</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Institution</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Course</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Date Submitted</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Status</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicationstable" class="divide-y divide-slate-50">
+                            <!-- injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="flex justify-center items-center gap-3 mt-5">
+                    <button id="prevpage"
+                        class="px-4 py-2 border border-slate-200 rounded-lg text-sm bg-white hover:bg-slate-50 transition-colors">
+                        ← Previous
+                    </button>
+                    <span id="pageinfo" class="text-sm text-slate-500">Page 1</span>
+                    <button id="nextpage"
+                        class="px-4 py-2 border border-slate-200 rounded-lg text-sm bg-white hover:bg-slate-50 transition-colors">
+                        Next →
+                    </button>
+                </div>
+            </section>
+
+
+            <!-- Single Application View -->
+            <section id="single-application" class="mb-10">
+                <button id="backtolistbtn"
+                    class="mb-5 text-sm text-slate-500 hover:text-slate-800 border border-slate-200 px-4 py-2 rounded-lg bg-white transition-colors">
+                    ← Back to Applications
+                </button>
+                <h1 class="text-xl font-bold text-slate-800 mb-5">Application Details</h1>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                    <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-5">
+                        <h2 class="text-sm font-bold text-slate-700 mb-3 pb-2 border-b border-slate-100">Personal Information</h2>
+                        <div class="space-y-2 text-sm text-slate-600">
+                            <p>Full Name: <span id="view-fullname" class="font-semibold text-slate-800"></span></p>
+                            <p>ID Number: <span id="view-idnumber" class="text-slate-800"></span></p>
+                            <p>Phone: <span id="view-phone" class="text-slate-800"></span></p>
+                            <p>Gender: <span id="view-gender" class="text-slate-800"></span></p>
+                            <p>Location: <span id="view-location" class="text-slate-800"></span></p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-5">
+                        <h2 class="text-sm font-bold text-slate-700 mb-3 pb-2 border-b border-slate-100">Academic Information</h2>
+                        <div class="space-y-2 text-sm text-slate-600">
+                            <p>Institution: <span id="view-institution" class="font-semibold text-slate-800"></span></p>
+                            <p>Student Number: <span id="view-studentno" class="text-slate-800"></span></p>
+                            <p>Course: <span id="view-course" class="text-slate-800"></span></p>
+                            <p>Year of Study: <span id="view-year" class="text-slate-800"></span></p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-5">
+                        <h2 class="text-sm font-bold text-slate-700 mb-3 pb-2 border-b border-slate-100">Financial Information</h2>
+                        <div class="space-y-2 text-sm text-slate-600">
+                            <p>Monthly Income: <span id="view-income" class="font-semibold text-slate-800"></span></p>
+                            <p>Dependants: <span id="view-dependants" class="text-slate-800"></span></p>
+                            <p>Employed: <span id="view-employed" class="text-slate-800"></span></p>
+                            <p>Other Bursary: <span id="view-otherbursary" class="text-slate-800"></span></p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-5">
+                        <h2 class="text-sm font-bold text-slate-700 mb-3 pb-2 border-b border-slate-100">Motivation</h2>
+                        <p id="view-motivation" class="text-sm text-slate-600 leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-5 mb-5">
+                    <h2 class="text-sm font-bold text-slate-700 mb-3 pb-2 border-b border-slate-100">Uploaded Documents</h2>
+                    <ul id="documentlist" class="space-y-3">
+                        <!-- injected by JS — each item has a Download button -->
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-5">
+                    <h2 class="text-base font-bold text-slate-800 mb-5">Decision</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label for="bursaryamount" class="text-sm font-medium text-slate-600 block mb-1">Bursary Amount (KES)</label>
+                            <input type="number" id="bursaryamount" placeholder="Enter amount"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 mb-3">
+                            <button id="approvebtn"
+                                class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 rounded-lg text-sm transition-colors">
+                                ✓ Approve
+                            </button>
+                        </div>
+                        <div>
+                            <label for="rejectionreason" class="text-sm font-medium text-slate-600 block mb-1">Rejection Reason</label>
+                            <textarea id="rejectionreason" placeholder="Write reason for rejection"
+                                class="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-slate-50 resize-none h-20 mb-3"></textarea>
+                            <button id="rejectbtn"
+                                class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2.5 rounded-lg text-sm transition-colors">
+                                ✕ Reject
+                            </button>
+                        </div>
+                    </div>
+                    <p id="decisionresult" class="mt-4 text-sm font-medium text-green-600"></p>
+                </div>
+            </section>
+
+
+            <!-- Students List -->
+            <section id="students-list" class="mb-10">
+                <h1 class="text-xl font-bold text-slate-800 mb-4">Registered Students</h1>
+                <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                    <table class="w-full border-collapse">
+                        <thead class="bg-slate-50 border-b border-slate-100">
+                            <tr>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Name</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Email</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Institution</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Course</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Year</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Applied?</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentstable" class="divide-y divide-slate-50">
+                            <!-- injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+
+            <!-- Funds Management -->
+            <section id="funds" class="mb-10 ">
+                <h1 class="text-xl font-bold text-slate-800 mb-4">Funds Management</h1>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+                    <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-5">
+                        <p class="text-xs text-slate-400 uppercase tracking-wide mb-2">Total Budget</p>
+                        <p id="fundsTotal" class="text-2xl font-bold text-slate-800"></p>
+                    </div>
+                    <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-5">
+                        <p class="text-xs text-slate-400 uppercase tracking-wide mb-2">Allocated</p>
+                        <p id="fundsAllocated" class="text-2xl font-bold text-green-600"></p>
+                    </div>
+                    <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-5">
+                        <p class="text-xs text-slate-400 uppercase tracking-wide mb-2">Remaining</p>
+                        <p id="fundsRemaining" class="text-2xl font-bold text-blue-600"></p>
+                    </div>
+                </div>
+
+                <h2 class="text-base font-bold text-slate-700 mb-3">Allocation Breakdown</h2>
+                <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                    <table class="w-full border-collapse">
+                        <thead class="bg-slate-50 border-b border-slate-100">
+                            <tr>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Student Name</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Institution</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Amount Awarded</th>
+                                <th class="px-5 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">Date Approved</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fundsbreakdown" class="divide-y divide-slate-50">
+                            <!-- injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </section>
+
+    
+
+
+    <!-- ======================== -->
+    <!--          FOOTER          -->
+    <!-- ======================== -->
+    <footer id="footer" class="bg-slate-900 text-slate-400 px-8 py-10">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-start gap-6">
+            <div>
+                <h1 class="text-white font-bold text-lg mb-2">Smart Bursary Distribution Portal</h1>
+                <p class="text-sm">Empowering students through transparent bursary distribution.</p>
+            </div>
+            <div class="text-sm space-y-1">
+                <p>📧 Smartbrainportal@gmail.com</p>
+                <p>📞 0727 669 032</p>
+                <p class="text-slate-500 text-xs mt-3">© 2025 Smart Kids Production. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+<script src="script.js"></script>
+</body>
+</html>
