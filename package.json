@@ -1,4 +1,8 @@
+
 {
+  "scripts": {
+    "start": "node server.js"
+  },{
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cookie-parse": "^0.4.0",
