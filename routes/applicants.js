@@ -54,24 +54,24 @@ REASON:z.string().min(20, 'Reason must be at least 20 characters')
     .regex(/^[a-zA-Z\s.,!?'-]+$/, 'Reason must contain letters only'),
 });
 
-const applicantmiddleware = (req,res,next)=>{
-    const results = applicantSchemas.safeParse(req.body);
-    if(!results.success){
-        return  res.status(422).json({message:'failed to verify your applicants input try with the correct fields and submit'});
-    }
-    next();
-}
-// const applicantmiddleware = (req, res, next) => {
-//     console.log('req.body:', req.body);
+// const applicantmiddleware = (req,res,next)=>{
 //     const results = applicantSchemas.safeParse(req.body);
-//     if (!results.success) {
-//         const message = results.error?.issues[0]?.message;
-//         const field = results.error?.issues[0]?.path[0];
-//         console.log('zod error:', message, 'field:', field);
-//         return res.status(422).json({ message: `${field}: ${message}` });
+//     if(!results.success){
+//         return  res.status(422).json({message:'failed to verify your applicants input try with the correct fields and submit'});
 //     }
 //     next();
-// };
+// }
+const applicantmiddleware = (req, res, next) => {
+    console.log('req.body:', req.body);
+    const results = applicantSchemas.safeParse(req.body);
+    if (!results.success) {
+        const message = results.error?.issues[0]?.message;
+        const field = results.error?.issues[0]?.path[0];
+        console.log('zod error:', message, 'field:', field);
+        return res.status(422).json({ message: `${field}: ${message}` });
+    }
+    next();
+};
 router.post('/applicantscredentials',verifiedjwt,applicantmiddleware,async(req,res)=>{
     const  { FULLNAMES, APPLICANTID, BIRTHDATE, SELECTGENDER, PHONENO, LOCATION,
     INSTITUTION, STUDENTSID, COURSE, YEAROFSTUDY, MONTHLYINCOME, DEPENDANTS, EMPLOYED, REASON } = req.body;
