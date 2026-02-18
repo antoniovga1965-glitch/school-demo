@@ -101,7 +101,6 @@ const emailinput = document.getElementById('emailinput');
 const passwordinput =document.getElementById('passwordinput');
 const loginbtn = document.getElementById('loginbtn');
 const loginresults = document.getElementById('loginresults');
-const landingpage = document.getElementById('landingpage');
 const applycta = document.getElementById('applycta');
 const adminpage = document.getElementById('adminpage');
 
