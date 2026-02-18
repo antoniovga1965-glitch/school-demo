@@ -53,18 +53,20 @@ registerbtn.addEventListener('click',()=>{
  })
  .then(res=>res.json())
  .then(data=>{
-
+    registerresults.classList.remove('hidden');
+    registerresults.textContent = data.message;
     if(data.message.includes(`you have been succesfully registered`)){
+        setTimeout(() => {
         registrationsection.classList.add('hidden');
         landingpage.classList.remove('hidden');
         applycta.classList.remove('remove');
-        loginsection.classList.remove('hidden');
+        loginsection.classList.add('hidden');
         loginsection.classList.remove('hidden');
        footer.classList.remove('hidden');
-        
+
+    },3000);
     }
-    registerresults.classList.remove('hidden');
-    registerresults.textContent = data.message;
+
  })
  .catch(err=>{
      registerresults.classList.remove('hidden');
