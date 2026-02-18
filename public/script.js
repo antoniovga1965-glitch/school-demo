@@ -69,7 +69,7 @@ registerbtn.addEventListener('click', () => {
                 applycta.classList.remove('hidden');
                 loginsection.classList.remove('hidden');
                 footer.classList.remove('hidden');
-            }, 3000);
+            }, 2000);
         }
     })
     .catch(err => {
@@ -86,7 +86,7 @@ loginlink.addEventListener('click',()=>{
 loginsection.classList.remove('hidden');
 registrationsection.classList.add('hidden');
 
-})
+});
 
 registerlink.addEventListener('click',()=>{
 loginsection.classList.add('hidden');
