@@ -1,83 +1,85 @@
 
+
 const fullnames = document.getElementById('fullnames');
 const Instituitionname = document.getElementById('Instituitionname');
-const email = document.getElementById('email');
+const email =document.getElementById('email');
 const courseinput = document.getElementById('courseinput');
-const studentid = document.getElementById('studentid');
-const password = document.getElementById('password');
+const studentid  =document.getElementById('studentid');
+const password  =document.getElementById('password');
 const registerbtn = document.getElementById('registerbtn');
-const registerresults = document.getElementById('registerresults');
+const registerresults =document.getElementById('registerresults');
 const loginlink = document.getElementById('loginlink');
 const registerform = document.getElementById('registerform');
 const loginform = document.getElementById('loginform');
-const loginsection = document.getElementById('loginsection');
-const registrationsection = document.getElementById('registrationsection');
-const registerlink = document.getElementById('registerlink');
+const loginsection=document.getElementById('loginsection');
+const registrationsection=document.getElementById('registrationsection');
+const registerlink=document.getElementById('registerlink');
 const applicationpage = document.getElementById('applicationpage');
-const footer = document.getElementById('footer');
-const landingpage = document.getElementById('landingpage');
-const applycta = document.getElementById('applycta');
-loginform.addEventListener('submit', (e) => {
+const footer =document.getElementById('footer');
+
+
+loginform.addEventListener('submit',(e)=>{
     e.preventDefault();
 })
 
-registerform.addEventListener('submit', (e) => {
+registerform.addEventListener('submit',(e)=>{
     e.preventDefault();
 })
 
-registerbtn.addEventListener('click', () => {
+
+registerbtn.addEventListener('click',()=>{
     const FULLNAMES = fullnames.value.trim();
-    const INSTITUTION = Instituitionname.value.trim();
+    const INSTITUTION= Instituitionname.value.trim();
     const EMAIL = email.value.trim();
-    const COURSE = courseinput.value.trim();
-    const STUDENTID = studentid.value.trim();
-    const PASSWORD = password.value.trim();
+    const COURSE =courseinput.value.trim();
+    const STUDENTID= studentid.value.trim();
+    const PASSWORD =password.value.trim();
 
-    if (FULLNAMES === "" || INSTITUTION === "" || EMAIL === "" || COURSE === "" || STUDENTID === "" || PASSWORD === "") {
+
+    if(FULLNAMES==="" || INSTITUTION===""||EMAIL===""||COURSE===""||STUDENTID===""||PASSWORD===""){
         registerresults.textContent = 'please fill in the field above';
         registerresults.classList.remove('hidden');
+
         setTimeout(() => {
             registerresults.classList.add('hidden');
-        }, 3000);
+        },3000);
         return;
     }
+ fetch('/registeruser/register',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    credentials:'include',
+    body:JSON.stringify({FULLNAMES,INSTITUTION,EMAIL,COURSE,STUDENTID,PASSWORD})
+ })
+ .then(res=>res.json())
+ .then(data=>{
 
-    fetch('/registeruser/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ FULLNAMES, INSTITUTION, EMAIL, COURSE, STUDENTID, PASSWORD })
-    })
-    .then(res => res.json())
-    .then(data => {
-        registerresults.classList.remove('hidden');
-        registerresults.textContent = data.message;
+    if(data.message.includes(`you have been succesfully registered`)){
+        registrationsection.classList.add('hidden');
+        landingpage.classList.remove('hidden');
+        applycta.classList.remove('remove');
+        loginsection.classList.remove('hidden');
+        loginsection.classList.remove('hidden');
+       footer.classList.remove('hidden');
+        
+    }
+    registerresults.classList.remove('hidden');
+    registerresults.textContent = data.message;
+ })
+ .catch(err=>{
+     registerresults.classList.remove('hidden');
+    registerresults.textContent = err.message;
 
-        if (data.message.includes(`you have been succesfully registered`)) {
-            fullnames.value = "";
-            Instituitionname.value = "";
-            email.value = "";
-            courseinput.value = "";
-            studentid.value = "";
-            password.value = "";
-
-            setTimeout(() => {
-                registerresults.classList.add('hidden');
-                registrationsection.classList.add('hidden');
-                landingpage.classList.remove('hidden');
-                applycta.classList.remove('hidden');
-                loginsection.classList.add('hidden');
-                footer.classList.remove('hidden');
-            }, 2000);
-        }
-    })
-    .catch(err => {
-        registerresults.classList.remove('hidden');
-        registerresults.textContent = err.message;
-        setTimeout(() => {
-            registerresults.classList.add('hidden');
-        }, 3000);
-    });
+    setTimeout(() => {
+        registerresults.classList.add('hidden');
+    }, 3000);
+ })
+ fullnames.value="";
+ Instituitionname.value='';
+ email.value="";
+ courseinput.value="";
+ studentid.value="";
+ password.value="";
 })
 
 
@@ -85,7 +87,7 @@ loginlink.addEventListener('click',()=>{
 loginsection.classList.remove('hidden');
 registrationsection.classList.add('hidden');
 
-});
+})
 
 registerlink.addEventListener('click',()=>{
 loginsection.classList.add('hidden');
@@ -100,6 +102,8 @@ const emailinput = document.getElementById('emailinput');
 const passwordinput =document.getElementById('passwordinput');
 const loginbtn = document.getElementById('loginbtn');
 const loginresults = document.getElementById('loginresults');
+const landingpage = document.getElementById('landingpage');
+const applycta = document.getElementById('applycta');
 const adminpage = document.getElementById('adminpage');
 
 loginbtn.addEventListener('click',()=>{
@@ -124,6 +128,8 @@ loginbtn.addEventListener('click',()=>{
  })
  .then(res=>res.json())
  .then(data=>{
+    console.log(data);
+    
     
        if(data.role==='admin'){
         adminpage.classList.remove('hidden');
@@ -150,11 +156,9 @@ loginbtn.addEventListener('click',()=>{
     setTimeout(() => {
         loginresults.classList.add('hidden');
     }, 3000);
- })
-emailinput.value="";
+ });
+ emailinput.value="";
  passwordinput.value="";
-    
-    
 })
 
 
@@ -217,6 +221,8 @@ submitbtn.addEventListener('click',()=>{
     const SUPPORTINGDOC = supportingdoc.files[0];
     const IDCOPY  =idcopy.files[0];
     const RESULTSCORE = resultsuplaod.files[0];
+    console.log(RESULTSCORE,IDCOPY,SUPPORTINGDOC);
+    
 
 
     const formdata=new FormData();
@@ -232,6 +238,8 @@ submitbtn.addEventListener('click',()=>{
     }
     ).then(res=>res.json())
     .then(data=>{
+
+        
         uploadmessage.classList.remove('hidden');
         uploadmessage.textContent = data.message;
     })
@@ -241,6 +249,7 @@ submitbtn.addEventListener('click',()=>{
         setTimeout(() => {
             uploadmessage.classList.add('hidden');
         }, 4000);
+     
     })
 
     fetch('/applicants/applicantscredentials',{
@@ -262,25 +271,23 @@ submitbtn.addEventListener('click',()=>{
         setTimeout(() => {
             uploadmessage.classList.add('hidden');
         }, 4000);
+    applicantfullname.value = '';
+    applicantsid.value = '';
+    brthdate.value = '';
+    selectgender.value = '';
+    phoneno.value = '';
+    locationinput.value = '';
+    Institution.value = '';
+    StudentId.value = '';
+    course.value = '';
+    Yearofstudy.value = '';
+    Monthlyincone.value = '';
+    dependants.value = '';
+    reason.value = '';
+    Declaration.checked = false;
     })
-    applicantfullname.value = "";
-applicantsid.value = "";
-brthdate.value = "";
-selectgender.value = "";
-phoneno.value = "";
-locationinput.value = "";
-Institution.value = "";
-StudentId.value = "";
-course.value = "";
-Yearofstudy.value = "";
-resultsuplaod.value = "";
-Monthlyincone.value = "";
-dependants.value = "";
-reason.value = "";
-idcopy.value = "";
-supportingdoc.value = "";
-uploadmessage.value = "";
-Declaration.checked = false;
+
+
 })
 
 // admin
@@ -364,7 +371,6 @@ setbudget.addEventListener('input',()=>{
 
     }).then(res=>res.json())
     .then(data=>{
-        console.log(data);
         
         totalbudget.textContent = `Ksh${data.message}`;
     })
@@ -383,19 +389,35 @@ backtolistbtn.addEventListener('click',()=>{
 })
 
 
-// const documentlist = document.getElementById('documentlist');
-// async function uploadeddocs() {
-//     try {
-//         const results = await fetch('/money/documents');
-//         const data = await results.json();
-//         documentlist.textContent = data.message;
-        
-//     } catch (error) {
-//         console.log(error);
-        
-//     }
-// }
-// uploadeddocs();
+const documentlist = document.getElementById('documentlist');
+const getCleanName = (filepath) => {
+    if (!filepath) return 'N/A';
+    return filepath.split('/').pop().replace(/^\d+-/, '');
+};
+async function uplaodeddocments() {
+  fetch('/applicants/documents',{
+    method:'GET',
+  })
+  .then(res=>res.json())
+  .then(data=>{
+    documentlist.innerHTML="";
+data.message.forEach(student=>{
+documentlist.innerHTML+=`
+
+  <p><b>Students Results <a href="/${student.resultscore}"target="_blank">${getCleanName(student.resultscore)}</a> b></p> <br>
+     <p><b>Student Id <a href="/${student.idcopy}" target="_blank">${getCleanName(student.idcopy)}</a></b></p><br>
+    <p><bStudent Supporting Documents <a href="/${student.supportingdoc}" target="_blank"> ${student.supportingdoc}</a></b></p>
+`
+})
+
+
+  })
+  .catch(err=>{
+     documentlist.innerHTML = err.message;
+  })
+}
+uplaodeddocments()
+
 
 const adminlogoutbtn=document.getElementById('adminlogoutbtn');
 adminlogoutbtn.addEventListener('click',()=>{
@@ -413,4 +435,62 @@ adminlogoutbtn.addEventListener('click',()=>{
         console.log(err);
         
     })
+})
+
+
+
+const profile = document.getElementById('profile');
+
+
+const searchinput = document.getElementById('searchinput');
+const searchbtn = document.getElementById('searchbtn');
+const filterstatus = document.getElementById('filterstatus');
+
+searchbtn.addEventListener('click',async()=>{
+    try {
+    const searchedvalue = searchinput.value.trim();
+    if(!searchedvalue){
+        
+        return}
+
+    const searchedresults = await fetch(`/applicants/searched?searchedvalue=${searchedvalue}`);
+    const data = await searchedresults.json();
+    console.log(data);
+    data.message.forEach(student=>{
+        applicationstable.innerHTML="";
+        applicationstable.innerHTML+=`
+        <td>${student.fullnames}</td>
+         <td>${student.institution}</td>
+          <td>${student.course}</td>
+          <td>${student.created_at}</td>
+           <td>${student.status}</td>
+            <td>${student.action}</td>`
+    })
+  
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+
+});
+
+const statusbn = document.getElementById('status');
+const viewstatus = document.getElementById('viewstatus');
+
+viewstatus.addEventListener('click',()=>{
+
+fetch('/applicants/viewstatus',{
+    method:'GET',
+    credentials:'include',
+})
+.then(res=>res.json())
+.then(data=>{
+    console.log(data);
+   statusbn.innerHTML=`Dear ${data.message.fullnames} your status is ${data.message.status}`
+})
+.catch(err=>{
+    console.log(err);
+    
+})
 })
