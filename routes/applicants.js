@@ -6,6 +6,11 @@ const {Pool}=require('pg');
 require('dotenv').config();
 const z = require('zod');
 const verifiedjwt = require('../middlewaretkn');
+const pdfparse =require('pdf-parse');
+const pdf = require('pdf-parse');
+
+
+
 
 
 if (!fs.existsSync('uploads')) fs.mkdirSync('uploads');
@@ -13,7 +18,7 @@ if (!fs.existsSync('uploads')) fs.mkdirSync('uploads');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, 'uploads/'),
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
+        cb(null, `${Date.now()}-${file.originalname.replace(/\s+/g, '_')}`);
     }
 });
 
@@ -87,9 +92,11 @@ router.post('/applicantscredentials',verifiedjwt,applicantmiddleware,async(req,r
         }
 
         const saveapplicant = await pool.query(`INSERT INTO applicants (FULLNAMES, APPLICANTID, BIRTHDATE, SELECTGENDER, PHONENO, LOCATION,
-             INSTITUTION, STUDENTSID, COURSE, YEAROFSTUDY, MONTHLYINCOME, DEPENDANTS, EMPLOYED, REASON) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13,$14)`,[FULLNAMES, APPLICANTID, BIRTHDATE, SELECTGENDER, PHONENO, LOCATION,
-               INSTITUTION, STUDENTSID, COURSE, YEAROFSTUDY, MONTHLYINCOME, DEPENDANTS, EMPLOYED, REASON]);
+             INSTITUTION, STUDENTSID, COURSE, YEAROFSTUDY, MONTHLYINCOME, DEPENDANTS, EMPLOYED, REASON,user_id) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13,$14,$15)`,[FULLNAMES, APPLICANTID, BIRTHDATE, SELECTGENDER, PHONENO, LOCATION,
+               INSTITUTION, STUDENTSID, COURSE, YEAROFSTUDY, MONTHLYINCOME, DEPENDANTS, EMPLOYED, REASON,req.user.id]);
+
+
                return res.status(200).json({message:`Dear ${FULLNAMES} your application has been submitted wait for processing`});
         
     } catch (error) {
@@ -108,19 +115,83 @@ router.post('/uploadfiles',verifiedjwt,uploads.fields([
     { name: 'RESULTSCORE' },
 ]), async (req, res) => {
     try {
-        await pool.query(`
-            INSERT INTO files (IDCOPY, SUPPORTINGDOC, RESULTSCORE)
+
+    const IDCOPY = req.files.IDCOPY ?req.files.IDCOPY[0].path:null;
+    const SUPPORTINGDOC = req.files.SUPPORTINGDOC ? req.files.SUPPORTINGDOC[0].path:null;
+    const RESULTSCORE = req.files.RESULTSCORE ?req.files.RESULTSCORE[0].path:null;
+
+
+
+
+     const results= await pool.query(`
+            INSERT INTO files (idcopy , supportingdoc , resultscore )
             VALUES ($1, $2, $3)`,
             [
-                req.files.IDCOPY[0].path,
-                req.files.SUPPORTINGDOC[0].path,
-                req.files.RESULTSCORE[0].path
+            IDCOPY,
+               SUPPORTINGDOC, 
+            RESULTSCORE,
             ]
         );
+        if(SUPPORTINGDOC){
+          const response = await fs.readFileSync(SUPPORTINGDOC);
+            const parseddata = await pdf(response);
+     
+             await fs.writeFileSync('data.txt',parseddata.text);
+        }else if(RESULTSCORE){
+            const response = await fs.readFileSync(RESULTSCORE);
+            const parseddata = await pdf(response);
+     
+             await fs.writeFileSync('data.txt',parseddata.text);
+        }else{
+            return res.json({message:'failed to write data'})
+        }
+
+        
+
         return res.status(200).json({ message: 'Files uploaded successfully and application is succesful wait for processing' });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: 'File upload failed' });
     }
+
+})
+
+    router.get('/documents',verifiedjwt,async(req,res)=>{
+        try {
+      const results = await pool.query('SELECT * FROM files');
+      return res.status(200).json({message:results.rows})
+        } catch (error) {
+             return res.status(404).json({message:'something went wrong page not found'})
+        }
+    
 });
+
+router.get('/searched',verifiedjwt,async(req,res)=>{
+    try {
+  const {searchedvalue} = req.query
+  console.log(searchedvalue);
+  
+   const searched = await pool.query('SELECT * FROM applicants WHERE fullnames ILIKE $1',[`%${searchedvalue}%`]);
+   return res.status(200).json({message:searched.rows});
+    } catch (error) {
+        console.error(error)
+    }
+ 
+});
+router.get('/viewstatus',verifiedjwt,async(req,res)=>{
+    console.log(req.user.email);
+    
+    try {
+        const getstatus = await pool.query(`SELECT  fullnames, status  FROM applicants  WHERE  user_id=$1`,[req.user.id]);
+        
+        return res.json({message:getstatus.rows[0]});
+    } catch (error) {
+        console.error(error);
+        
+    }
+})
+
+
+
+
 module.exports = router;
