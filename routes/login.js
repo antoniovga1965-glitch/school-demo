@@ -6,7 +6,17 @@ const {Pool}=require('pg');
 const router = express.Router();
 const bcrypt = require('bcrypt')
 const cookieparser = require('cookie-parser');
+const limitor = require('express-rate-limit');
+const verifiedjwt = require('../middlewaretkn');
+const winstonlogin= require('../winston');
 
+
+
+const limit = limitor({
+    windowMs:30*60*1000,
+    max:30,
+    message:{message:'TOO MANY LOGIN ATTEMPTS TRY AGAIN LATER'},
+})
 
 
 const pool = new Pool({
@@ -39,10 +49,15 @@ const loginmiddleware = (req,res,next)=>{
 
 }
 
-router.post('/loginapi',loginmiddleware,async(req,res)=>{
+
+
+router.post('/loginapi',loginmiddleware,limit,async(req,res)=>{
  const  {email,password} = req.body;
 
  if(email===""|| password===""){
+    
+    winstonlogin.warn('verification failed :empty password and email');
+    
     return res.status(422).json({message:'validation failed'});
  }
  try {
@@ -50,6 +65,7 @@ router.post('/loginapi',loginmiddleware,async(req,res)=>{
 
 
     if(match.rowCount===0){
+        winstonlogin.info('login attempt failed:no user found')
         return res.status(404).json({message:'user not found'});
     }
 
@@ -63,23 +79,30 @@ router.post('/loginapi',loginmiddleware,async(req,res)=>{
 
 
     if(!passwordmatch){
+        winstonlogin.warn(`Invalid login attempt for user: ${email}`);
         return res.status(401).json({message:'invalid login credentials'})
     }
 
-    const token = jwt.sign({email,role:user.role},process.env.JWT_SECRET,{expiresIn:'1h'});
+    const token = jwt.sign({id:user.id,email,role:user.role},process.env.JWT_SECRET,{expiresIn:'1h'});
     res.cookie('token',token,{
     httpOnly:true,
     secure:false,
     sameSite:'lax'
       });
      
-
+      winstonlogin.info(`User logged in successfully: ${email} (${user.role})`);
     return res.status(200).json({message:`Welcome..your logged in succesfuly`,role:user.role});
 
  } catch (error) {
     console.log(error);
-    
+    winstonlogin.error(`Login error for user ${email}: ${error.message}`);
       return res.status(500).json({message:`something wrong happened  try logging in with correct details`})
  }
 })
-module.exports = router
+
+
+
+winstonlogin.info('User attempted login');
+winstonlogin.warn('User entered wrong password');
+winstonlogin.error('Unexpected DB error');
+module.exports = router;
