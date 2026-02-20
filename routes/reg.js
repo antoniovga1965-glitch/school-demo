@@ -4,7 +4,8 @@ const z= require('zod');
 const jwt = require('jsonwebtoken');
 const {Pool}=require('pg');
 const router = express.Router();
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const winstonlogin= require('../winston');
 
 
 const pool = new Pool({
@@ -33,6 +34,7 @@ const regmiddelware = (req,res,next)=>{
     try {
         const results = registerschemas.safeParse(req.body);
         if(!results.success){
+            winstonlogin.info("fsiled to log in correct details");
          return res.status(401).json({message:'validation failed'});
          }
          next();
@@ -56,6 +58,7 @@ try {
 
         const existing = await pool.query('SELECT * FROM registered_users WHERE EMAIL=$1',[EMAIL]);
         if(existing.rows>0){
+            winstonlogin.info(`${FULLNAMES}  tried adding the same user who exists already exist`)
             return res.status(400).json({message:'user already exist'});
         }
 
@@ -76,13 +79,19 @@ try {
             secure:false,
             sameSite: 'strict'
         });
-
+         winstonlogin.info(`${FULLNAMES} have been registered`)
         return res.status(201).json({message:`Dear ${FULLNAMES} from ${INSTITUTION} you have been succesfully registered`,email:EMAIL});
 
 } catch (error) {
     console.log(error)
+    winstonlogin.error('error unsucesfull registration')
       return res.status(422).json({message:'Registration unsuccesfully try again'});
 }
 })
+winstonlogin.error('error');
+winstonlogin.info('infor')
 
 module.exports = router;
+
+
+
